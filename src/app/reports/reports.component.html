@@ -1,0 +1,57 @@
+<div class="reports-wrapper" id="reportToPrint">
+  <app-sidebar></app-sidebar>
+
+  <main class="report-main-content">
+    
+    <!-- Date Filter + Generate Button -->
+    <section class="report-controls">
+      <div class="date-filter-form">
+        <div class="form-group">
+          <label for="startDate">Start Date</label>
+          <input type="date" id="startDate" [(ngModel)]="reportFilter.startDate">
+        </div>
+        <div class="form-group">
+          <label for="endDate">End Date</label>
+          <input type="date" id="endDate" [(ngModel)]="reportFilter.endDate">
+        </div>
+        <button class="apply-btn" (click)="applyReportFilter()">Apply</button>
+      </div>
+
+      <div class="generate-button-container">
+        <button class="generate-report-btn" (click)="generatePdfReport()">
+          📄 Generate PDF Report
+        </button>
+      </div>
+    </section>
+
+    <!-- Summary Section -->
+    <section class="summary-card">
+      <h2>📊 Summary Data</h2>
+      <ul class="summary-list">
+        <li>💰 Income: <strong>{{ totalIncome | currency:'USD' }}</strong></li>
+        <li>💸 Expenses: <strong>{{ totalExpense | currency:'USD' }}</strong></li>
+        <li>📊 Balance: <strong>{{ netBalance | currency:'USD' }}</strong></li>
+        <li>🔁 Transactions: <strong>{{ transactions.length }}</strong></li>
+        <li>📈 Avg. Income/Day: <strong>{{ averageIncome | number:'1.2-2' }}</strong></li>
+        <li>📉 Avg. Expense/Day: <strong>{{ averageExpense | number:'1.2-2' }}</strong></li>
+      </ul>
+    </section>
+
+    <!-- Charts Section -->
+    <section class="charts-grid">
+      <div class="chart-item">
+        <h3>💵 Income by Category</h3>
+        <canvas id="incomeChart"></canvas>
+      </div>
+      <div class="chart-item">
+        <h3>💸 Expenses by Category</h3>
+        <canvas id="expenseChart"></canvas>
+      </div>
+      <div class="chart-item">
+        <h3>📉 Predicted Expenses</h3>
+        <canvas id="predictedChart"></canvas>
+      </div>
+    </section>
+
+  </main>
+</div>

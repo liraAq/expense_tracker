@@ -1,0 +1,39 @@
+<div class="auth-container">
+  <h1 class="auth-title">Sign In to ExpanceTracker</h1>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+
+    <input
+      id="username"
+      placeholder="Email"
+      type="email"
+      formControlName="username"
+      class="auth-input"
+    />
+    <div *ngIf="submitted && loginForm.controls.username.errors" class="error">
+      <!-- <span *ngIf="loginForm.controls.username.errors?.['required']">Email is required.</span>
+      <span *ngIf="loginForm.controls.username.errors?.['email']">Invalid email format.</span> -->
+    </div>
+
+    <input
+      id="password"
+      placeholder="Password"
+      type="password"
+      formControlName="password"
+      class="auth-input"
+    />
+    <div *ngIf="submitted && loginForm.controls.password.errors" class="error">
+      <!-- <span *ngIf="loginForm.controls.password.errors?.['required']">Password is required.</span>
+      <span *ngIf="loginForm.controls.password.errors?.['minlength']">Minimum 8 characters required.</span> -->
+    </div>
+
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <button type="submit" class="auth-button">Login</button>
+  </form>
+
+  <p class="register-link">
+    Don't have an account?
+    <a (click)="navigateToRegister()">Sign up</a>
+  </p>
+</div>

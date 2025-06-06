@@ -1,0 +1,52 @@
+<div class="register-container">
+  <h2 class="register-title">Create Your Account</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="register-form">
+
+    <input
+      id="username"
+      placeholder="Email"
+      type="email"
+      formControlName="username"
+      class="register-input"
+    />
+    <div *ngIf="submitted && registerForm.controls.username.errors" class="error">
+      <span *ngIf="registerForm.controls.username.errors?.['required']">Email is required.</span>
+      <span *ngIf="registerForm.controls.username.errors?.['email']">Invalid email format.</span>
+    </div>
+
+    <input
+      id="password"
+      placeholder="Password"
+      type="password"
+      formControlName="password"
+      class="register-input"
+    />
+    <div *ngIf="submitted && registerForm.controls.password.errors" class="error">
+      <span *ngIf="registerForm.controls.password.errors?.['required']">Password is required.</span>
+      <span *ngIf="registerForm.controls.password.errors?.['minlength']">Minimum 8 characters required.</span>
+    </div>
+
+    <input
+      id="confirmPassword"
+      placeholder="Confirm Password"
+      type="password"
+      formControlName="confirmPassword"
+      class="register-input"
+    />
+    <div *ngIf="submitted && registerForm.controls.confirmPassword.errors" class="error">
+      <span *ngIf="registerForm.controls.confirmPassword.errors?.['required']">Confirmation is required.</span>
+      <span *ngIf="registerForm.controls.confirmPassword.errors?.['minlength']">Minimum 8 characters required.</span>
+    </div>
+
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+
+    <button type="submit" class="register-button">Register</button>
+  </form>
+
+  <p class="login-link">
+    Already have an account?
+    <a routerLink="/login">Login</a>
+  </p>
+</div>
