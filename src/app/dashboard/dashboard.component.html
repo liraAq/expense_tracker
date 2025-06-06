@@ -1,0 +1,131 @@
+<div class="dashboard-container">
+  <app-sidebar></app-sidebar>
+
+  <main class="dashboard-content">
+    <!-- Summary Cards -->
+    <div class="cards-container">
+      <div class="card">
+        <div class="card-header">
+          <h4>Balance</h4>
+        </div>
+        <div class="card-body">
+          <h3>{{ balance | currency: 'USD' }}</h3>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h4>Total Income</h4>
+        </div>
+        <div class="card-body">
+          <h3>{{ totalIncome | currency: 'USD' }}</h3>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h4>Total Expense</h4>
+        </div>
+        <div class="card-body">
+          <h3>{{ totalExpense | currency: 'USD' }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts and Recent Transactions -->
+    <div class="charts-container">
+      <div class="chart-wrapper">
+        <div class="chart-container">
+          <canvas id="incomeChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="expenseChart"></canvas>
+        </div>
+      </div>
+
+      <div class="recent-history">
+        <h3>Recent Transactions</h3>
+
+        <div class="transaction">
+          <h4>Latest Income</h4>
+          <p>{{ latestIncome?.description }} - {{ latestIncome?.amount | currency: 'USD' }} ({{ latestIncome?.date | date: 'yyyy-MM-dd' }})</p>
+        </div>
+
+        <div class="transaction">
+          <h4>Latest Expense</h4>
+          <p>{{ latestExpense?.description }} - {{ latestExpense?.amount | currency: 'USD' }} ({{ latestExpense?.date | date: 'yyyy-MM-dd' }})</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- ✅ Create Saving Goal Form -->
+      <div class="create-goal-section">
+        <h3>Create Saving Goal</h3>
+
+        <!-- Toggle Button to Collapse/Expand the Form -->
+        <button (click)="toggleForm()" class="btn btn-info mb-3">
+          {{ formCollapsed ? 'Expand Form' : 'Collapse Form' }}
+        </button>
+
+        <!-- Form for Creating a Goal -->
+        <form (ngSubmit)="addGoal()" *ngIf="!formCollapsed && !editingGoal">
+          <div class="form-group">
+            <label for="goalName">Goal Name:</label>
+            <input id="goalName" [(ngModel)]="newGoal.name" name="name" required class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="targetAmount">Target Amount:</label>
+            <input id="targetAmount" [(ngModel)]="newGoal.targetAmount" name="targetAmount" type="number" required class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="currentAmount">Current Amount:</label>
+            <input id="currentAmount" [(ngModel)]="newGoal.currentAmount" name="currentAmount" type="number" required class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="deadline">Deadline:</label>
+            <input id="deadline" [(ngModel)]="newGoal.deadline" name="deadline" type="date" required class="form-control" />
+          </div>
+          <button type="submit" class="btn btn-primary">Create Goal</button>
+        </form>
+      </div>
+
+      <!-- ✅ Saving Goals List -->
+      <div class="saving-goals-list">
+        <h3>Your Saving Goals</h3>
+        <div *ngFor="let goal of savingGoals" class="goal-item">
+          <!-- Edit Mode -->
+          <ng-container *ngIf="editingGoal?.id === goal.id; else viewMode">
+            <input [(ngModel)]="goal.name" class="form-control" />
+            <input [(ngModel)]="goal.targetAmount" type="number" class="form-control" />
+            <input [(ngModel)]="goal.currentAmount" type="number" class="form-control" />
+            <input [(ngModel)]="goal.deadline" type="date" class="form-control" />
+    
+            <div class="goal-actions">
+              <button class="btn btn-primary" (click)="updateGoal(goal)">Save</button>
+              <button class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+            </div>
+          </ng-container>
+    
+          <!-- View Mode -->
+          <ng-template #viewMode>
+            <h4>{{ goal.name }}</h4>
+            <p>Target Amount: {{ goal.targetAmount | currency:'USD' }}</p>
+            <p>Current Amount: {{ goal.currentAmount | currency:'USD' }}</p>
+            <p>Deadline: {{ goal.deadline | date:'mediumDate' }}</p>
+            <div class="progress-bar-container">
+              <div class="progress" [style.width.%]="goal.progress"></div>
+            </div>
+          
+            <p *ngIf="goal.isDeadlineNear" class="deadline-warning">Deadline is near!</p>
+    
+            <div class="goal-actions">
+              <button class="btn btn-warning" (click)="editGoal(goal)">Edit Goal</button>
+              <button class="btn btn-danger" (click)="deleteGoal(goal.id!)">Delete Goal</button>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

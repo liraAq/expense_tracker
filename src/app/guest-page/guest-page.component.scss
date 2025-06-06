@@ -1,0 +1,47 @@
+.guest-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  background: #f9f9f9;
+
+  .guest-title {
+    font-size: 3rem;
+    font-weight: 600;
+    color: #1e1e2f;
+    margin-bottom: 1rem;
+  }
+
+  .guest-description {
+    font-size: 1.25rem;
+    color: #4a4a68;
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .guest-button {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    background-color: #4f46e5; // індиго
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s;
+
+    &:hover {
+      background-color: #4338ca;
+      box-shadow: 0 6px 18px rgba(67, 56, 202, 0.4);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5);
+    }
+  }
+}

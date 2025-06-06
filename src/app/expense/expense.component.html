@@ -1,0 +1,98 @@
+<div class="page-wrapper">
+  <app-sidebar></app-sidebar>
+
+  <div class="expense-container">
+    <div class="header">
+      <h2><span class="icon">💸</span> Expenses Overview</h2>
+      <p class="total">Total: {{ totalExpense | currency:'USD' }}</p>
+    </div>
+
+    <!-- 🔍 Filters -->
+    <div class="filter-section">
+      <div class="filters">
+        <label>
+          Category
+          <select [(ngModel)]="filter.categoryId" (change)="applyFilter()">
+            <option value="">All</option>
+            <option *ngFor="let category of categories" [value]="category.id">
+              {{ category.name }}
+            </option>
+          </select>
+        </label>
+
+        <label>
+          From
+          <input type="date" [(ngModel)]="filter.startDate" (change)="applyFilter()">
+        </label>
+
+        <label>
+          To
+          <input type="date" [(ngModel)]="filter.endDate" (change)="applyFilter()">
+        </label>
+      </div>
+
+      <div class="filter-actions">
+        <button (click)="applyFilter()">🔍 Filter</button>
+        <button class="reset" (click)="resetFilter()">♻️ Reset</button>
+      </div>
+    </div>
+
+    <!-- 📋 Main Content -->
+    <div class="main-content">
+      <!-- ➕ Add/Edit Expense Form -->
+      <div class="form-section">
+        <h3>➕ {{ newExpense.id === 0 ? 'New Expense' : 'Edit Expense' }}</h3>
+        <form (ngSubmit)="addOrUpdateExpense()">
+          <input type="text" [(ngModel)]="newExpense.description" name="description" placeholder="Description" required>
+          <input type="number" [(ngModel)]="newExpense.amount" name="amount" placeholder="Amount" required>
+          <input type="datetime-local" [(ngModel)]="newExpense.date" name="date" required>
+
+          <select [(ngModel)]="newExpense.category" name="category" required [compareWith]="compareCategories">
+            <option value="" disabled>Select Category</option>
+            <option *ngFor="let category of categories" [ngValue]="category">
+              {{ category.name }}
+            </option>
+          </select>
+
+          <label for="receiptFile">Receipt (optional)</label>
+          <input type="file" (change)="onFileChange($event)" id="receiptFile" accept="image/*">
+
+          <small *ngIf="!selectedReceiptFile && newExpense.receiptUrl">
+            Existing: 
+            <a [href]="newExpense.receiptUrl" target="_blank">
+              {{ extractFileName(newExpense.receiptUrl) }}
+            </a>
+          </small>
+          <small *ngIf="selectedReceiptFile">
+            Selected: {{ selectedReceiptFile.name }}
+          </small>
+
+          <button type="submit">
+            {{ newExpense.id === 0 ? 'Add Expense' : 'Update Expense' }}
+          </button>
+        </form>
+      </div>
+
+      <!-- 📄 Expense History -->
+      <div class="list-section">
+        <h3>📄 Expenses History</h3>
+        <div *ngIf="filteredExpenses.length === 0" class="no-data">
+          No expenses found for selected filters.
+        </div>
+
+        <div *ngFor="let expense of filteredExpenses" class="expense-item">
+          <div class="expense-info">
+            <p><strong>{{ expense.description }}</strong></p>
+            <p>{{ expense.amount | currency:'USD' }} • {{ expense.category?.name }}</p>
+            <p class="date">{{ expense.date | date:'yyyy-MM-dd HH:mm' }}</p>
+          </div>
+          <div class="actions">
+            <button (click)="editExpense(expense)">✏️</button>
+            <button (click)="deleteExpense(expense.id)">🗑️</button>
+            <button *ngIf="expense.receiptUrl" (click)="viewReceipt(expense.receiptUrl)">🧾</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

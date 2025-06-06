@@ -1,0 +1,368 @@
+// =========================
+// 🎨 VARIABLES
+// =========================
+$page-bg: #eceae6;
+$card-bg: #ffffff;
+$primary: #2b2b2b;
+$accent: #6f5c4f;
+$accent-hover: darken($accent, 8%);
+$border: #cfcac3;
+$shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+$radius: 10px;
+$font-stack: 'Georgia', 'Times New Roman', serif;
+
+// =========================
+// 📦 CONTAINER LAYOUT
+// =========================
+.dashboard-container {
+  display: flex;
+  font-family: $font-stack;
+  background-color: $page-bg;
+  color: $primary;
+
+  .dashboard-content {
+    flex: 1;
+    padding: 3rem;
+    padding-left: 280px;
+    max-width: 1400px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  // =========================
+  // 💳 CARD STYLES
+  // =========================
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+
+    .card {
+      background-color: $card-bg;
+      border: 1px solid $border;
+      border-radius: $radius;
+      box-shadow: $shadow;
+      padding: 1.5rem 2rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      }
+
+      .card-header h4 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: $accent;
+        margin-bottom: 0.8rem;
+        border-bottom: 1px solid $border;
+        padding-bottom: 0.3rem;
+      }
+
+      .card-body h3 {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: $primary;
+      }
+    }
+  }
+
+  // =========================
+  // 📊 CHARTS & HISTORY
+  // =========================
+  .charts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+
+    .chart-wrapper {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+
+      .chart-container {
+        background: $card-bg;
+        border: 1px solid $border;
+        border-radius: $radius;
+        padding: 1.5rem;
+        box-shadow: $shadow;
+        display: flex;
+        flex-direction: column;
+
+        .chart-title {
+          font-family: $font-stack;
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: $primary;
+          margin-bottom: 1rem;
+          text-align: left;
+        }
+
+        canvas {
+          width: 100% !important;
+          height: 280px !important;
+          margin-top: 0.5rem;
+        }
+      }
+    }
+
+    .recent-history {
+      background-color: $card-bg;
+      border: 1px solid $border;
+      border-radius: $radius;
+      box-shadow: $shadow;
+      padding: 2rem;
+
+      h3 {
+        font-size: 1.25rem;
+        color: $accent;
+        margin-bottom: 1.2rem;
+        border-bottom: 1px solid $border;
+        padding-bottom: 0.4rem;
+      }
+
+      .transaction {
+        margin-bottom: 1.2rem;
+
+        h4 {
+          font-size: 1.05rem;
+          color: darken($primary, 5%);
+          margin-bottom: 0.2rem;
+        }
+
+        p {
+          font-size: 1rem;
+          color: $primary;
+        }
+      }
+    }
+  }
+
+  // =========================
+  // 🎯 CREATE SAVING GOAL FORM
+  // =========================
+  .create-goal-section {
+    margin-top: 30px;
+    background-color: $card-bg;
+    padding: 2rem;
+    border-radius: $radius;
+    box-shadow: $shadow;
+
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: $accent;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+
+      label {
+        font-size: 1rem;
+        color: $primary;
+        margin-bottom: 0.5rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid $border;
+        border-radius: $radius;
+        background-color: $card-bg;
+        color: $primary;
+        transition: border 0.3s ease;
+
+        &:focus {
+          border-color: $accent;
+        }
+      }
+    }
+
+    .btn {
+      background-color: $accent;
+      color: #fff;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: $radius;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        background-color: $accent-hover;
+      }
+    }
+  }
+
+  // =========================
+  // 📋 SAVING GOALS LIST
+  // =========================
+  .saving-goals-list {
+    margin-top: 30px;
+
+    h3 {
+      font-size: 1.5rem;
+      color: $accent;
+      margin-bottom: 20px;
+    }
+
+    .goal-item {
+      background-color: $card-bg;
+      padding: 1.5rem;
+      border-radius: $radius;
+      box-shadow: $shadow;
+      margin-bottom: 20px;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: translateY(-4px);
+      }
+
+      h4 {
+        font-size: 1.2rem;
+        color: $primary;
+        margin-bottom: 0.8rem;
+      }
+
+      p {
+        font-size: 1rem;
+        color: $primary;
+        margin-bottom: 0.5rem;
+      }
+
+      .progress-bar-container {
+        background-color: #f0f0f0;
+        border-radius: $radius;
+        height: 10px;
+        margin-top: 1rem;
+        transition: height 0.3s ease;
+
+        .progress {
+          background-color: $accent;
+          height: 100%;
+          border-radius: $radius;
+          transition: width 0.3s ease;
+        }
+      }
+
+      .deadline-warning {
+        color: #e74c3c;
+        font-weight: bold;
+        margin-top: 0.5rem;
+      }
+
+      // 🔧 Edit mode inputs
+      input.form-control {
+        width: 100%;
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+        font-size: 1rem;
+        border: 1px solid $border;
+        border-radius: $radius;
+        background-color: $card-bg;
+        color: $primary;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+        &:focus {
+          border-color: $accent;
+          box-shadow: 0 0 5px rgba(111, 92, 79, 0.3);
+          outline: none;
+        }
+      }
+
+      // 🎛️ Buttons (edit/save/delete/cancel)
+      .goal-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+
+        .btn {
+          padding: 0.6rem 1.2rem;
+          border-radius: $radius;
+          border: none;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background-color 0.3s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-warning {
+          background-color: #f0ad4e;
+          color: #fff;
+
+          &:hover {
+            background-color: darken(#f0ad4e, 10%);
+            box-shadow: 0 3px 6px rgba(240, 173, 78, 0.4);
+          }
+        }
+
+        .btn-danger {
+          background-color: #e74c3c;
+          color: #fff;
+
+          &:hover {
+            background-color: darken(#e74c3c, 8%);
+            box-shadow: 0 3px 6px rgba(231, 76, 60, 0.4);
+          }
+        }
+
+        .btn-primary {
+          background-color: $accent;
+          color: #fff;
+
+          &:hover {
+            background-color: $accent-hover;
+            box-shadow: 0 3px 6px rgba(111, 92, 79, 0.3);
+          }
+        }
+
+        .btn-secondary {
+          background-color: $border;
+          color: $primary;
+
+          &:hover {
+            background-color: darken($border, 10%);
+            box-shadow: 0 3px 6px rgba(207, 202, 195, 0.3);
+          }
+        }
+      }
+    }
+  }
+
+  .create-goal-section {
+    transition: all 0.3s ease;
+  }
+  
+  button {
+    transition: background-color 0.2s;
+  }
+  
+  button:hover {
+    background-color: #007bff;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+
+  // =========================
+  // 📱 RESPONSIVENESS
+  // =========================
+  @media (max-width: 768px) {
+    .dashboard-content {
+      padding-left: 20px;
+    }
+
+    .charts-container {
+      flex-direction: column;
+    }
+
+    .cards-container {
+      grid-template-columns: 1fr;
+    }
+  }
+}

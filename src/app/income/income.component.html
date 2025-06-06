@@ -1,0 +1,91 @@
+<div class="page-wrapper">
+  <app-sidebar></app-sidebar>
+
+  <div class="income-container">
+    <div class="header">
+      <h2><span class="icon">📈</span> Income Overview</h2>
+      <p class="total">Total: {{ totalIncome | currency:'USD' }}</p>
+    </div>
+
+    <div class="filter-section">
+      <div class="filters">
+        <label>
+          Category
+          <select [(ngModel)]="filter.categoryId">
+            <option value="">All</option>
+            <option *ngFor="let category of categories" [value]="category.id">
+              {{ category.name }}
+            </option>
+          </select>
+        </label>
+
+        <label>
+          From
+          <input type="date" [(ngModel)]="filter.startDate">
+        </label>
+
+        <label>
+          To
+          <input type="date" [(ngModel)]="filter.endDate">
+        </label>
+      </div>
+
+      <div class="filter-actions">
+        <button (click)="applyFilter()">🔍 Filter</button>
+        <button class="reset" (click)="resetFilter()">♻️ Reset</button>
+      </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="form-section">
+        <h3>➕ {{ newIncome.id === 0 ? 'New Income' : 'Edit Income' }}</h3>
+        <form (ngSubmit)="addOrUpdateIncome()" #incomeForm="ngForm">
+          <input type="text" [(ngModel)]="newIncome.description" name="description" placeholder="Description" required>
+          <input type="number" [(ngModel)]="newIncome.amount" name="amount" placeholder="Amount" required>
+          <input type="datetime-local" [(ngModel)]="newIncome.date" name="date" required>
+
+          <select [(ngModel)]="newIncome.category" name="category" required [compareWith]="compareCategories">
+            <option value="" disabled>Select Category</option>
+            <option *ngFor="let category of categories" [ngValue]="category">{{ category.name }}</option>
+          </select>
+
+          <label class="file-label">
+            Receipt (optional)
+            <input type="file" (change)="onFileChange($event)">
+          </label>
+
+          <div *ngIf="newIncome.receiptUrl && !receiptFile" class="receipt-link">
+            Existing: 
+            <a href="#" (click)="viewReceipt(newIncome.receiptUrl); $event.preventDefault()">
+              {{ newIncome.receiptUrl.split('/').pop() }}
+            </a>
+          </div>
+
+          <button type="submit">{{ newIncome.id === 0 ? 'Save' : 'Update' }}</button>
+        </form>
+      </div>
+
+      <div class="list-section">
+        <h3>Income History</h3>
+
+        <div *ngIf="filteredIncomes.length === 0" class="no-results">
+          No records found for selected filters.
+        </div>
+
+        <div *ngFor="let income of filteredIncomes" class="income-item">
+          <div class="income-details">
+            <p><strong>{{ income.description }}</strong></p>
+            <p class="meta">
+              {{ income.date | date: 'yyyy-MM-dd HH:mm' }} • {{ income.category?.name }} • {{ income.amount | currency:'USD' }}
+            </p>
+          </div>
+          <div class="actions">
+            <button (click)="editIncome(income)" aria-label="Edit Income">✏️</button>
+            <button (click)="deleteIncome(income.id)" aria-label="Delete Income">🗑️</button>
+            <button *ngIf="income.receiptUrl" (click)="viewReceipt(income.receiptUrl)" aria-label="View Receipt">🧾</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
